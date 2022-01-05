@@ -342,7 +342,11 @@ Company is a completion UI framework. LSP mode will use Company to do inline com
 
 #+begin_src emacs-lisp
   (use-package company
-    :ensure t)
+    :ensure t
+    :config
+    (setq company-dabbrev-downcase 0)
+    (setq company-idle-delay 0)
+    )
 #+end_src
 
 * Language Server Protocol
