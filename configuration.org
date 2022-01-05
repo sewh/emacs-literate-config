@@ -3,6 +3,8 @@
 
 * About This Config
 
+*Note: to navigate this file on GitHub use the navigator on the top left.*
+
 This document is written in [[https://orgmode.org/][org-mode]], a very powerful package for Emacs that many regard as its 'killer feature'. At its core, =org-mode= is a markup language like markdown. However it has deep integration into Emacs that makes it much more powerful. One very cool features of =org-mode= is that it lets you embed source code blocks in documents and then evaluate them. This lets us write a document with Emacs lisp in it and then load it as our configuration file. This is called a [[https://harryrschwartz.com/2016/02/15/switching-to-a-literate-emacs-configuration][literate Emacs config]].
 
 To load this file, we place a line in our config file, =init.el=:
