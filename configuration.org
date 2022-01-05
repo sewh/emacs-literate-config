@@ -219,9 +219,9 @@ org-mode is the package that this very config is written in. On its own, it can 
                                  (append org-babel-load-languages
                                          '((python . t)
                                            (shell . t))))
-    :hook ((org-mode . visual-line-mode)
-           (org-mode . flyspell-mode)
-           (org-mode . org-indent-mode))
+    :hook ((org-mode . flyspell-mode)
+           (org-mode . org-indent-mode)
+           (org-mode . visual-line-mode))
     )
 #+end_src
 
