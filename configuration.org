@@ -1,0 +1,346 @@
+#+TITLE: emacs configuration
+#+AUTHOR: sewh
+
+* About This Config
+
+This document is written in [[https://orgmode.org/][org-mode]], a very powerful package for Emacs that many regard as its 'killer feature'. At its core, =org-mode= is a markup language like markdown. However it has deep integration into Emacs that makes it much more powerful. One very cool features of =org-mode= is that it lets you embed source code blocks in documents and then evaluate them. This lets us write a document with Emacs lisp in it and then load it as our configuration file. This is called a [[https://harryrschwartz.com/2016/02/15/switching-to-a-literate-emacs-configuration][literate Emacs config]].
+
+To load this file, we place a line in our config file, =init.el=:
+
+#+begin_src
+    (org-babel-load-file (concat user-emacs-directory "configuration.el"))
+#+end_src
+
+The first thing we're going to add is a command to reload the config file to save some typing:
+
+#+begin_src emacs-lisp
+  (defun reload-config ()
+    (interactive)
+    (org-babel-load-file (concat user-emacs-directory "configration.el")))
+#+end_src
+
+* Package Management
+
+** Package Repositories
+
+The default package repository is a little bit bare, and most interesting packages are hosted in [[https://melpa.org/][MELPA]]. We add MELPA as an available package repository:
+   
+#+begin_src emacs-lisp
+  (require 'package)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-initialize)
+#+end_src
+
+** Installing use-package
+
+=use-package= is a nice little package to help install and configure Emacs packages. If it's not installed, we refresh our package cache and install it:
+   
+#+begin_src emacs-lisp
+  (unless (require 'use-package nil 'noerror)
+    (package-refresh-contents)
+    (package-install 'use-package))
+#+end_src
+
+* Appearance
+
+** Setting the Font
+
+My currently preferred font is Fira Code, and size 14 is a decent size for me. Adding this to the ~default-frame-alist~ ensures that this font is the default for all Emacs frames.
+  
+#+begin_src emacs-lisp
+  (setq default-frame-alist '((font . "Fira Code-14")))
+#+end_src
+
+** Setting the Theme
+
+#+begin_src emacs-lisp
+#+end_src
+
+** Remove the Toolbar and Scrollbar
+
+I don't like the toolbar or the scrollbar so I disable them:
+
+#+begin_src emacs-lisp
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+#+end_src
+
+I keep the menu bar around because it does come in handy every now and then.
+
+** Scrolling
+
+Emacs scrolls by quite a big ol' chunk of lines. I don't like this too much so I change it to 1 line per scroll:
+
+#+begin_src emacs-lisp
+  (setq scroll-step 1)
+  (setq scroll-conservatively 10000)
+#+end_src
+
+** System Bell
+
+No thank you. Disable!
+
+#+begin_src emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+end_src
+
+** Blinking Cursor
+
+I don't like blinking cursors. Get it gone!
+
+#+begin_src emacs-lisp
+  (blink-cursor-mode 0)
+#+end_src
+
+* Basic Text and File Options
+
+** Tabs and Spaces
+
+I prefer to use spaces instead of tabs:
+
+#+begin_src emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+end_src
+
+Emacs also doesn't indent on the 'Enter' key by default. That's easily changed with a key binding:
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "RET") 'newline-and-indent)
+#+end_src
+
+** Automatically Updating Files When They Change on Disk
+
+#+begin_src emacs-lisp
+(global-auto-revert-mode)
+#+end_src
+
+* Basic Programming Language Options
+
+** Line Numbers
+
+Line numbers are great for programming but not so great for other modes, like =org-mode= and terminals. Therefore we only turn on line number mode when we're in the fundamental programming mode:
+
+#+begin_src emacs-lisp
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+#+end_src
+
+** Automatically Adding Parenthesis
+
+It's quite useful to automatically add parenthesis, especially when messing around with Emacs lisp. Instead of using the built-in packages, I use one called [[https://github.com/Fuco1/smartparens][smartparens]] since it's a little bit smarter:
+
+#+begin_src emacs-lisp
+  (use-package smartparens
+    :ensure t
+    :init
+    (require 'smartparens-config)
+    (smartparens-global-mode))
+#+end_src
+
+* Backups
+
+Emacs defaults to storing backup files in the same directory as the file being edited. This can create a jumble of files and confuse git. This little bit of configuration ensures that backup files are stored in Emacs' working directory instead:
+  
+#+begin_src emacs-lisp
+  (setq backup-directory (concat user-emacs-directory "backups"))
+
+  (unless (file-directory-p backup-directory)
+    (mkdir backup-directory))
+
+  (setq backup-directory-alist
+        `((".*" . ,backup-directory)))
+#+end_src
+
+* Emacs Under the Hood
+
+** Custom File
+
+Emacs stores some configuration in a file, that by default is the =init.el= file. This makes vendoring the =init.el= in Git tricky, so we can change it to its own file:
+
+#+begin_src emacs-lisp
+  (setq custom-file (concat user-emacs-directory "custom.el"))
+  (when (file-exists-p custom-file)
+    (load-file custom-file))
+
+#+end_src
+
+* Spell Checking
+
+Emacs has a built in, live, spellchecker called Flyspell. We use flyspell for org mode configuration later on, so we need to make sure it's configured to use an English (GB) dictionary:
+
+#+begin_src emacs-lisp
+  (setq ispell-dictionary "british")
+#+end_src
+
+* Ivy
+
+The default Emacs minibuffer is file, but the Ivy package really improves it. With Ivy, you get completions, previews, and many other packages integrate with it.
+
+#+begin_src emacs-lisp
+  (use-package ivy
+    :ensure t
+    :init
+    (ivy-mode 1)
+    (setq ivy-use-virtual-buffers t)
+    (setq enable-recursive-minibuffers t))
+#+end_src
+
+Ivy also powers a replacement for the default =C-s= search that's really powerful and a great way to navigate around code called Swiper. We download that as well.
+
+#+begin_src emacs-lisp
+  (use-package swiper
+    :ensure t
+    :bind (("C-s" . swiper)))
+#+end_src
+
+Finally, we can use another Ivy powered tool called 'Counsel' to add some extra functionality to Emacs. I like =counsel-rg= because it lets me search a directory with [[https://github.com/BurntSushi/ripgrep][ripgrep]], perhaps the fastest search tool around, with a Swiper-like interface.
+
+#+begin_src emacs-lisp
+  (use-package counsel
+    :ensure t
+    :bind (("C-c k" . counsel-rg)))
+#+end_src
+
+* Org Mode
+
+org-mode is the package that this very config is written in. On its own, it can use a bit of configuration. Ideally, I'd like org-mode to:
+
+- Wrap lines nicely;
+- Use a spellchecking program;
+- Set the default location for org mode files in =~/org/=;
+- Enable org-specific indentation rules;
+- Add a default set of languages to the evaluation allow list.
+
+#+begin_src emacs-lisp
+  (use-package org
+    :init
+    (setq org-directory "~/org")
+    :config
+    (org-babel-do-load-languages 'org-babel-load-languages
+                                 (append org-babel-load-languages
+                                         '((python . t)
+                                           (shell . t))))
+    :hook ((org-mode . visual-line-mode)
+           (org-mode . flyspell-mode)
+           (org-mode . org-indent-mode))
+    )
+#+end_src
+
+* Magit
+
+Magit is a helper for managing Git repositories. It is another Emacs 'killer feature' and makes frequent Git commands really fast to execute.
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :ensure t
+    :bind (("C-x g" . magit-status))
+    :hook ((magit-mode . magit-auto-revert-mode)))
+#+end_src
+
+* Dired
+
+Dired is Emacs' built-in file management tool. It is basically the output from ~ls~ but actionable. Basic file operations are really quick in Dired. Another benefit of Dired is that it integrates with [[https://www.emacswiki.org/emacs/TrampMode][TRAMP mode]], so you can list and modify directories on remote hosts over SSH (and all the other protocols that TRAMP supports).
+
+One of the nice, non-default, behaviours of Dired is that you can open two Dired buffers side by side and copy between them with the 'C' key. We enable this here:
+
+#+begin_src emacs-lisp
+  (setq dired-dwim-target t)
+#+end_src
+
+* vterm
+
+Emacs has a built in terminal emulator, but it's not a /true/ VTY emulator and struggles with some of the more involved commands. There's a package called =vterm= which provides a much more robust terminal emulator.
+
+#+begin_src emacs-lisp
+  (use-package vterm
+    :ensure t)
+#+end_src
+
+I have also written a quick function to make a new vterm with a specific buffer name. This is really useful when you need to start multiple terminal emulators:
+
+#+begin_src emacs-lisp
+  (defun vterm-named (name)
+    (interactive "sTerminal name: ")
+    (let ((term-name (concat "vterm-" name)))
+      (vterm term-name)))
+
+  (global-set-key (kbd "C-x v") #'vterm-named)
+#+end_src
+
+* Docker
+
+Emacs doesn't yet have a Dockerfile mode, so we need to fetch one:
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :ensure t)
+#+end_src
+
+* Python
+
+We leave most of the Python heavy lifting to LSP mode (documented later on). However, there's a helpful package for managing virtual environments that's very handy. I'm a user of [[https://python-poetry.org/][Poetry]], so I point the ~venv-location~ variable at the directory that Poetry stores its virtual environments.
+
+#+begin_src emacs-lisp
+  (use-package virtualenvwrapper
+    :ensure t
+    :config
+    (venv-initialize-interactive-shells)
+    (setq venv-location (concat (getenv "HOME") "/.cache/pypoetry/virtualenvs")))
+#+end_src
+
+* YAML
+
+Emacs doesn't yet have an in-built Python mode so we need to install one:
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :ensure t)
+#+end_src
+
+* Markdown
+
+There's quite a nice mode for Markdown support, so let's install it:
+
+#+begin_src emacs-lisp
+  (use-package markdown-mode
+    :ensure t)
+#+end_src
+
+* Rust
+
+Ensure we have the package for editing Rust mode. Completion will be handled by LSP mode:
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :ensure t)
+#+end_src
+
+* Company Mode
+
+Company is a completion UI framework. LSP mode will use Company to do inline completions.
+
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t)
+#+end_src
+
+* Language Server Protocol
+
+The same language servers that power VSCode can also be used inside Emacs:
+
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :ensure t
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :hook ((lsp-mode . company-mode))
+    :commands lsp)
+#+end_src
+
+There is also a package for integration with the Emacs UI:
+
+#+begin_src emacs-lisp
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode)
+#+end_src
+
