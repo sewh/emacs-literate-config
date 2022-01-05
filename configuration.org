@@ -21,6 +21,26 @@ The first thing we're going to add is a command to reload the config file to sav
     (org-babel-load-file (concat user-emacs-directory "configration.el")))
 #+end_src
 
+* A Note on Emacs
+
+I thought I'd write a few words in case anyone reading isn't living the Emacs dream and wonders why in the age of Vim, VSCode, IntelliJ, etc, we would even consider using Emacs.
+
+In a word: trust. Trust that *Emacs is unlikely to contain any user-hostile functionality* and trust that *Emacs will be actively maintained for the foreseeable future, so time invested in learning Emacs is unlikely to be wasted*.
+
+The first point is very important. Emacs is developed by volunteers and sponsored by the GNU project. It is Free Software and the source code is available. There is nothing up the developer's sleeve. Compare this to VSCode:
+
+- Which /isn't/ open source (if you use the official build from the VSCode website);
+- Many of the official extensions that make VSCode usable are not open source (e.g. the C++, remote development, and C# extensions are all closed source);
+- Microsoft prevents open source builds from installing closed source extensions, making the closed-source version of VSCode really the only viable version for many people;
+- The closed source extensions operate in strange ways. As an example, the remote SSH development plugin downloads a closed source blob to the target computer and executes it - Emacs by comparison just uses SFTP;
+- Telemetry is enabled by default, and even disabled some Telemetry is still left active. Also, even if telemetry is disabled, some plugins will happily beacon back home anyway.
+
+  Not great!
+
+  The second point is about software survivability. Yes Emacs is a little bit of a learning curve but it will very likely last you your career. The initial release of GNU Emacs was 1976, almost 50 years ago. The idea of learning a tool once and being able to depend on it indefinitely is very appealing.
+
+  So trust is a big factor. But trust alone is not the only reason to use Emacs. Emacs has a massive and thriving ecosystem of packages that not add support for new languages, but also can add completely new features to the editor itself. Many of them are best in class, like =org-mode= and Magit. It's also very easy to write a small bit of code and support some bespoke bit of your workflow. There is no other editor as powerful as Emacs.
+
 * Package Management
 
 ** Package Repositories
