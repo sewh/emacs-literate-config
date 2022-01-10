@@ -18,7 +18,7 @@ The first thing we're going to add is a command to reload the config file to sav
 #+begin_src emacs-lisp
   (defun reload-config ()
     (interactive)
-    (org-babel-load-file (concat user-emacs-directory "configration.el")))
+    (org-babel-load-file (concat user-emacs-directory "configuration.el")))
 #+end_src
 
 * A Note on Emacs
@@ -311,7 +311,7 @@ We leave most of the Python heavy lifting to LSP mode (documented later on). How
 
 * YAML
 
-Emacs doesn't yet have an in-built Python mode so we need to install one:
+Emacs doesn't yet have an in-built YAML mode so we need to install one:
 
 #+begin_src emacs-lisp
   (use-package yaml-mode
@@ -349,6 +349,14 @@ Company is a completion UI framework. LSP mode will use Company to do inline com
     )
 #+end_src
 
+* Flycheck
+
+Flycheck is an error checking framework for Emacs. It's useful to get feedback on errors with code.
+
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :ensure t)
+#+end_src
 * Language Server Protocol
 
 The same language servers that power VSCode can also be used inside Emacs:
@@ -358,7 +366,8 @@ The same language servers that power VSCode can also be used inside Emacs:
     :ensure t
     :init
     (setq lsp-keymap-prefix "C-c l")
-    :hook ((lsp-mode . company-mode))
+    :hook ((lsp-mode . company-mode)
+           (lsp-mode . flycheck-mode))
     :commands lsp)
 #+end_src
 
