@@ -224,7 +224,7 @@ Finally, we can use another Ivy powered tool called 'Counsel' to add some extra 
 
 * Org Mode
 
-org-mode is the package that this very config is written in. On its own, it can use a bit of configuration. Ideally, I'd like org-mode to:
+org-mode is the package that this very config is written in. It's pretty good out of the box, but I feel that it benefits from a bit of configuration. Ideally, I'd like org-mode to:
 
 - Wrap lines nicely;
 - Use a spellchecking program;
