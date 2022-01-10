@@ -195,7 +195,7 @@ Emacs has a built in, live, spellchecker called Flyspell. We use flyspell for or
 
 * Ivy
 
-The default Emacs minibuffer is file, but the Ivy package really improves it. With Ivy, you get completions, previews, and many other packages integrate with it.
+The default Emacs minibuffer is fine, but the Ivy package really improves it. With Ivy, you get completions, previews, and many other packages integrate with it.
 
 #+begin_src emacs-lisp
   (use-package ivy
