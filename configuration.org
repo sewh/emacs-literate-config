@@ -156,7 +156,7 @@ Line numbers are great for programming but not so great for other modes, like =o
 
 ** Automatically Adding Parenthesis
 
-It's quite useful to automatically add parenthesis, especially when messing around with Emacs lisp. Instead of using the built-in packages, I use one called [[https://github.com/Fuco1/smartparens][smartparens]] since it's a little bit smarter:
+I find it  useful to have Emacs automatically add parenthesis, especially when messing around with Emacs lisp. Instead of using the built-in packages, I use one called [[https://github.com/Fuco1/smartparens][smartparens]] since it's a little bit smarter:
 
 #+begin_src emacs-lisp
   (use-package smartparens
