@@ -47,7 +47,7 @@ Not great!
 
 The second point is about software survivability. Yes Emacs is a little bit of a learning curve but it will very likely last you your career. The initial release of GNU Emacs was 1976, almost 50 years ago. The idea of learning a tool once and being able to depend on it indefinitely is very appealing.
 
-So trust is a big factor. But trust alone is not the only reason to use Emacs. Emacs has a massive and thriving ecosystem of packages that not add support for new languages, but also can add completely new features to the editor itself. Many of them are best in class, like =org-mode= and Magit. It's also very easy to write a small bit of code and support some bespoke bit of your workflow. There is no other editor as powerful as Emacs.
+So trust is a big factor. But trust alone is not the only reason to use Emacs. Emacs has a massive and thriving ecosystem of packages that not only add support for new languages, but can also add completely new features to the editor itself. Many of them are best in class, like =org-mode= and Magit. It's also very easy to write a small bit of code and support some bespoke bit of your workflow. There is no other editor as powerful as Emacs.
 
 * Package Management
 
