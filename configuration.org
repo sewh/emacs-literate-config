@@ -97,15 +97,6 @@ I don't like the toolbar or the scrollbar so I disable them:
 
 I keep the menu bar around because it does come in handy every now and then.
 
-** Scrolling
-
-Emacs scrolls by quite a big ol' chunk of lines. I don't like this too much so I change it to 1 line per scroll:
-
-#+begin_src emacs-lisp
-  (setq scroll-step 1)
-  (setq scroll-conservatively 10000)
-#+end_src
-
 ** System Bell
 
 No thank you. Disable!
@@ -386,4 +377,3 @@ There is also a package for integration with the Emacs UI:
     :ensure t
     :commands lsp-ui-mode)
 #+end_src
-
