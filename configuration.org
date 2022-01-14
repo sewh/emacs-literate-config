@@ -7,19 +7,27 @@
 
 This document is written in [[https://orgmode.org/][org-mode]], a very powerful package for Emacs that many regard as its 'killer feature'. At its core, =org-mode= is a markup language like markdown. However it has deep integration into Emacs that makes it much more powerful. One very cool features of =org-mode= is that it lets you embed source code blocks in documents and then evaluate them. This lets us write a document with Emacs lisp in it and then load it as our configuration file. This is called a [[https://harryrschwartz.com/2016/02/15/switching-to-a-literate-emacs-configuration][literate Emacs config]].
 
-To load this file, we place a line in our config file, =init.el=:
+* Using This Config
+
+You need to download this file, =configuration.org=, the =init.el= file and put them both into =~/.emacs.d/=. If you already have an =init.el= then just make sure that this line is in there somewhere:
 
 #+begin_src
-    (org-babel-load-file (concat user-emacs-directory "configuration.el"))
+    (org-babel-load-file (concat user-emacs-directory "configuration.org"))
 #+end_src
+
+This will make sure this config is loaded at init time.
+
+* Easy Config Reloading
 
 The first thing we're going to add is a command to reload the config file to save some typing:
 
 #+begin_src emacs-lisp
   (defun reload-config ()
     (interactive)
-    (org-babel-load-file (concat user-emacs-directory "configuration.el")))
+    (org-babel-load-file (concat user-emacs-directory "configuration.org")))
 #+end_src
+
+Reloading the config can now be done with =M-x reload-config=.
 
 * A Note on Emacs
 
