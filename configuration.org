@@ -362,24 +362,3 @@ Flycheck is an error checking framework for Emacs. It's useful to get feedback o
   (use-package flycheck
     :ensure t)
 #+end_src
-* Language Server Protocol
-
-The same language servers that power VSCode can also be used inside Emacs:
-
-#+begin_src emacs-lisp
-  (use-package lsp-mode
-    :ensure t
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :hook ((lsp-mode . company-mode)
-           (lsp-mode . flycheck-mode))
-    :commands lsp)
-#+end_src
-
-There is also a package for integration with the Emacs UI:
-
-#+begin_src emacs-lisp
-  (use-package lsp-ui
-    :ensure t
-    :commands lsp-ui-mode)
-#+end_src
