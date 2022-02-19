@@ -190,6 +190,16 @@ Emacs stores some configuration in a file, that by default is the =init.el= file
 
 #+end_src
 
+* Platform Specific Changes
+
+** Hash Key
+
+Sometimes Mac keyboards make it difficult to enter in a hash symbol. To (sort of) get around this, I add a new keybinding it enter a hash key.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-c 3") (lambda () (interactive) (insert "#")))
+#+end_src
+
 * Spell Checking
 
 Emacs has a built in, live, spellchecker called Flyspell. We use flyspell for org mode configuration later on, so we need to make sure it's configured to use an English (GB) dictionary:
