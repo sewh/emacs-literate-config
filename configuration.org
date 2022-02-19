@@ -119,6 +119,15 @@ I don't like blinking cursors. Get it gone!
   (blink-cursor-mode 0)
 #+end_src
 
+* Movement
+** Better Window Movement
+
+Using C-o to move around windows can be a pain. Using windmove lets you move around with arrow keys instead.
+
+#+begin_src emacs-lisp
+(windmove-default-keybindings 'control)
+#+end_src
+
 * Basic Text and File Options
 
 ** Tabs and Spaces
