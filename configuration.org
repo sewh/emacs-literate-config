@@ -91,11 +91,17 @@ My currently preferred font is Fira Code, and size 14 is a decent size for me. A
 I don't like the toolbar or the scrollbar so I disable them:
 
 #+begin_src emacs-lisp
-  (tool-bar-mode -1)
-  (scroll-bar-mode -1)
+  (when (display-graphic-p)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1))
 #+end_src
 
-I keep the menu bar around because it does come in handy every now and then.
+I keep the menu bar around because it does come in handy every now and then. However, it just takes up space in a non-interactive CLI session so I disable it when not running graphically.
+
+#+begin_src emacs-lisp
+  (unless (display-graphic-p)
+    (menu-bar-mode -1))
+#+end_src
 
 ** System Bell
 
