@@ -163,20 +163,6 @@ I find it  useful to have Emacs automatically add parenthesis, especially when m
     (smartparens-global-mode))
 #+end_src
 
-* Backups
-
-Emacs defaults to storing backup files in the same directory as the file being edited. This can create a jumble of files and confuse git. This little bit of configuration ensures that backup files are stored in Emacs' working directory instead:
-  
-#+begin_src emacs-lisp
-  (setq backup-directory (concat user-emacs-directory "backups"))
-
-  (unless (file-directory-p backup-directory)
-    (mkdir backup-directory))
-
-  (setq backup-directory-alist
-        `((".*" . ,backup-directory)))
-#+end_src
-
 * Emacs Under the Hood
 
 ** Custom File
@@ -188,6 +174,20 @@ Emacs stores some configuration in a file, that by default is the =init.el= file
   (when (file-exists-p custom-file)
     (load-file custom-file))
 
+#+end_src
+
+** Backups
+
+Emacs defaults to storing backup files in the same directory as the file being edited. This can create a jumble of files and confuse git. This little bit of configuration ensures that backup files are stored in Emacs' working directory instead:
+  
+#+begin_src emacs-lisp
+  (setq backup-directory (concat user-emacs-directory "backups"))
+
+  (unless (file-directory-p backup-directory)
+    (mkdir backup-directory))
+
+  (setq backup-directory-alist
+        `((".*" . ,backup-directory)))
 #+end_src
 
 * Platform Specific Changes
