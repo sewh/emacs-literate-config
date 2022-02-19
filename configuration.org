@@ -381,3 +381,12 @@ Flycheck is an error checking framework for Emacs. It's useful to get feedback o
   (use-package flycheck
     :ensure t)
 #+end_src
+
+* wgrep
+
+=wgrep= lets you edit recursive grep buffers and commit your changes back to those files. Really useful for bulk renaming things.
+
+#+begin_src emacs-lisp
+  (use-package wgrep
+    :ensure t)
+#+end_src
