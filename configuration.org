@@ -84,6 +84,9 @@ My currently preferred font is Fira Code, and size 14 is a decent size for me. A
 ** Setting the Theme
 
 #+begin_src emacs-lisp
+  (use-package dracula-theme
+    :ensure t
+    :config (load-theme 'dracula t))
 #+end_src
 
 ** Remove the Toolbar and Scrollbar
