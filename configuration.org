@@ -295,6 +295,16 @@ One of the nice, non-default, behaviours of Dired is that you can open two Dired
   (setq dired-dwim-target t)
 #+end_src
 
+I also find myself needing to create files in the dired UI which isn't supported by default. I've chosen 't' for 'touch'.
+
+#+begin_src emacs-lisp
+  (define-key dired-mode-map (kbd "t")
+    (lambda (file-name)
+      (interactive "sTouch file: ")
+      (shell-command
+       (concat "touch " (dired-current-directory) "/" file-name))
+      (revert-buffer)))
+#+end_src
 * vterm
 
 Emacs has a built in terminal emulator, but it's not a /true/ VTY emulator and struggles with some of the more involved commands. There's a package called =vterm= which provides a much more robust terminal emulator.
@@ -391,5 +401,26 @@ Flycheck is an error checking framework for Emacs. It's useful to get feedback o
 
 #+begin_src emacs-lisp
   (use-package wgrep
+    :ensure t)
+#+end_src
+
+* Clojure
+
+Ensure we hae a mode for editing Clojure and CIDER for interactive development.
+
+#+begin_src emacs-lisp
+  (use-package clojure-mode
+    :ensure t)
+
+  (use-package cider
+    :ensure t)
+#+end_src
+
+* nftables
+
+The modern Linux firewall is nftables, and it has its own syntax. We should support this (because emacs doesn't do a good job of managing it on its own.)
+
+#+begin_src emacs-lisp
+  (use-package nftables-mode
     :ensure t)
 #+end_src
