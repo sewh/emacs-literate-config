@@ -305,6 +305,7 @@ I also find myself needing to create files in the dired UI which isn't supported
        (concat "touch " (dired-current-directory) "/" file-name))
       (revert-buffer)))
 #+end_src
+
 * vterm
 
 Emacs has a built in terminal emulator, but it's not a /true/ VTY emulator and struggles with some of the more involved commands. There's a package called =vterm= which provides a much more robust terminal emulator.
