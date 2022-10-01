@@ -425,3 +425,9 @@ The modern Linux firewall is nftables, and it has its own syntax. We should supp
   (use-package nftables-mode
     :ensure t)
 #+end_src
+
+* TOML
+
+#+begin_src emacs-lisp
+  (add-hook 'conf-toml-mode-hook (lambda () (setq tab-width 4)))
+#+end_src
