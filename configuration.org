@@ -287,6 +287,8 @@ Magit is a helper for managing Git repositories. It is another Emacs 'killer fea
 
 Projectile is a project management system that helps keep multiple projects tidy when running in one emacs instance. I have chosen to override ==C-x p= as the Projectile leader sequence; I tried using =C-c p= but I kept hitting =C-x= instead.
 
+I've also added an extra little Projectile helper function to spawn a new instance of vterm in the project. By default, Projectile only spawns one vterm and will drop you into it whenever you run the vterm sequence. I tend to like a few terminals in one project at once so I wrote that quick function.
+
 #+begin_src emacs-lisp
   (use-package projectile
     :ensure t
