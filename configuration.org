@@ -71,6 +71,15 @@ The default package repository is a little bit bare, and most interesting packag
     (package-install 'use-package))
 #+end_src
 
+** Updating Packages
+
+Emacs doesn't automatically upgrade packages, but luckily there is a package that will do that for us.
+
+#+begin_src emacs-lisp
+  (use-package auto-package-update
+    :ensure t)
+#+end_src
+
 * Appearance
 
 ** Setting the Font
