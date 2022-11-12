@@ -84,9 +84,7 @@ My currently preferred font is Fira Code, and size 14 is a decent size for me. A
 ** Setting the Theme
 
 #+begin_src emacs-lisp
-  (use-package dracula-theme
-    :ensure t
-    :config (load-theme 'dracula t))
+  (load-theme 'leuven t)
 #+end_src
 
 ** Remove the Toolbar and Scrollbar
@@ -298,12 +296,14 @@ One of the nice, non-default, behaviours of Dired is that you can open two Dired
 I also find myself needing to create files in the dired UI which isn't supported by default. I've chosen 't' for 'touch'.
 
 #+begin_src emacs-lisp
-  (define-key dired-mode-map (kbd "t")
-    (lambda (file-name)
-      (interactive "sTouch file: ")
-      (shell-command
-       (concat "touch " (dired-current-directory) "/" file-name))
-      (revert-buffer)))
+  (eval-after-load "dired"
+    '(progn
+       (define-key dired-mode-map (kbd "t")
+         (lambda (file-name)
+           (interactive "sTouch file: ")
+           (shell-command
+            (concat "touch " (dired-current-directory) "/" file-name))
+           (revert-buffer)))))
 #+end_src
 
 * vterm
