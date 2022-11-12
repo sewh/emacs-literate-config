@@ -293,7 +293,8 @@ Projectile is a project management system that helps keep multiple projects tidy
     :init
     (projectile-mode +1)
     :bind (:map projectile-mode-map
-                ("C-x p" . projectile-command-map))
+                ("C-x p" . projectile-command-map)
+                ("C-x p x V" . (lambda () (interactive) (projectile-run-vterm 't))))
     )
 #+end_src
 
