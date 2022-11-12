@@ -129,6 +129,14 @@ I don't like blinking cursors. Get it gone!
   (blink-cursor-mode 0)
 #+end_src
 
+** Using 'y' or 'n' rather than 'yes' or 'no'
+
+Sometimes emacs will ask you a question and expect you to type 'yes' or 'no' which is a little tedious. This change will get emacs to prompt for 'y' or 'n' instead.
+
+#+begin_src emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
 * Movement
 ** Better Window Movement
 
@@ -352,6 +360,21 @@ I have also written a quick function to make a new vterm with a specific buffer 
   (global-set-key (kbd "C-x v") #'vterm-named)
 #+end_src
 
+vterm also [[https://github.com/akermu/emacs-libvterm/blob/master/README.md][recommends]] using helpers in ~.zshrc~ to extend it's functionality. I'll record the ones I use here for reference.
+
+#+begin_src sh
+  vterm_printf() {
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
+    fi
+}
+#+end_src
 * Docker
 
 Emacs doesn't yet have a Dockerfile mode, so we need to fetch one:
