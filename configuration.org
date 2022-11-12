@@ -283,6 +283,20 @@ Magit is a helper for managing Git repositories. It is another Emacs 'killer fea
     :hook ((magit-mode . magit-auto-revert-mode)))
 #+end_src
 
+* Projectile
+
+Projectile is a project management system that helps keep multiple projects tidy when running in one emacs instance. I have chosen to override ==C-x p= as the Projectile leader sequence; I tried using =C-c p= but I kept hitting =C-x= instead.
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :ensure t
+    :init
+    (projectile-mode +1)
+    :bind (:map projectile-mode-map
+                ("C-x p" . projectile-command-map))
+    )
+#+end_src
+
 * Dired
 
 Dired is Emacs' built-in file management tool. It is basically the output from ~ls~ but actionable. Basic file operations are really quick in Dired. Another benefit of Dired is that it integrates with [[https://www.emacswiki.org/emacs/TrampMode][TRAMP mode]], so you can list and modify directories on remote hosts over SSH (and all the other protocols that TRAMP supports).
