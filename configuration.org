@@ -80,6 +80,16 @@ Emacs doesn't automatically upgrade packages, but luckily there is a package tha
     :ensure t)
 #+end_src
 
+* elisp helpers
+
+#+begin_src emacs-lisp
+  (defun chomp (str)
+      "Chomp leading and tailing whitespace from STR."
+      (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
+                           str)
+        (setq str (replace-match "" t t str)))
+      str)
+#+end_src
 * Appearance
 
 ** Setting the Font
@@ -289,6 +299,26 @@ org-mode is the package that this very config is written in. It's pretty good ou
     )
 #+end_src
 
+* Company Mode
+
+Company is a completion UI framework. LSP mode will use Company to do inline completions.
+
+#+begin_src emacs-lisp
+  (use-package company
+    :ensure t
+    :config
+    (setq company-dabbrev-downcase 0)
+    (setq company-idle-delay 0)
+    )
+#+end_src
+
+* eglot
+
+#+begin_src emacs-lisp
+  (use-package eglot
+    :ensure t)
+#+end_src
+
 * Magit
 
 Magit is a helper for managing Git repositories. It is another Emacs 'killer feature' and makes frequent Git commands really fast to execute.
@@ -396,6 +426,46 @@ We leave most of the Python heavy lifting to LSP mode (documented later on). How
     (setq venv-location (concat (getenv "HOME") "/.cache/pypoetry/virtualenvs")))
 #+end_src
 
+* Rust
+#+begin_src emacs-lisp
+
+  (defun find-rust-analyzer-directory ()
+    "Run rustup to discover rust-analyzer path"
+    (let* ((output (chomp (shell-command-to-string "rustup which --toolchain stable rust-analyzer"))))
+      (if (string-match-p "not found" output)
+          nil
+        (file-name-directory output))))
+
+  (defun add-rust-analyzer-to-path ()
+    "Add the parent folder of rust-analyzer to the PATH variable and Emacs' exec-path"
+    (let* ((ra-dir (find-rust-analyzer-directory)))
+
+      ; first update the path
+      (when (and ra-dir (not (string-match-p ra-dir (getenv "PATH")))) ; we found the ra dir + ra dir not in path
+        (setenv "PATH"
+                (concat ra-dir ":" (getenv "PATH"))))
+
+      ; now update the exec-path variable
+      (when (and ra-dir (not (member ra-dir exec-path)))
+        (add-to-list 'exec-path ra-dir))))
+
+   (use-package rustic
+      :ensure t
+      :hook ((rustic-mode . company-mode))
+      :init (add-rust-analyzer-to-path)
+      :config
+      (setq
+       ;; eglot seems to be the best option right now.
+       rustic-lsp-client 'eglot
+       rustic-format-on-save nil
+       ;; Prevent automatic syntax checking, which was causing lags and stutters.
+       eglot-send-changes-idle-time (* 60 60)
+       )
+      ;; Disable the annoying doc popups in the minibuffer.
+      (add-hook 'eglot-managed-mode-hook (lambda () (eldoc-mode -1)))
+      )
+
+#+end_src
 * YAML
 
 Emacs doesn't yet have an in-built YAML mode so we need to install one:
@@ -421,19 +491,6 @@ Ensure we have the package for editing Rust mode. Completion will be handled by 
 #+begin_src emacs-lisp
   (use-package rust-mode
     :ensure t)
-#+end_src
-
-* Company Mode
-
-Company is a completion UI framework. LSP mode will use Company to do inline completions.
-
-#+begin_src emacs-lisp
-  (use-package company
-    :ensure t
-    :config
-    (setq company-dabbrev-downcase 0)
-    (setq company-idle-delay 0)
-    )
 #+end_src
 
 * Flycheck
