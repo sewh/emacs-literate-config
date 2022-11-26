@@ -354,6 +354,8 @@ Company is a completion UI framework. LSP mode will use Company to do inline com
 
 * eglot
 
+eglot is an LSP package for Emacs. We use it for autocomplete and other fancy features. eglot was chosen because it will be baked into Emacs 29.
+
 #+begin_src emacs-lisp
   (use-package eglot
     :ensure t)
@@ -445,6 +447,7 @@ vterm also [[https://github.com/akermu/emacs-libvterm/blob/master/README.md][rec
     fi
 }
 #+end_src
+
 * Docker
 
 Emacs doesn't yet have a Dockerfile mode, so we need to fetch one:
@@ -467,6 +470,8 @@ We leave most of the Python heavy lifting to LSP mode (documented later on). How
 #+end_src
 
 * Rust
+Since Rust is best enjoyed with IDEish features like auto-complete, we have to make the setup a little complicated. First, we use the current trendy Emacs Rust package. Then we connect it into an LSP implementation (in this case, eglot).
+
 #+begin_src emacs-lisp
 
   (defun find-rust-analyzer-directory ()
@@ -506,6 +511,7 @@ We leave most of the Python heavy lifting to LSP mode (documented later on). How
       )
 
 #+end_src
+
 * YAML
 
 Emacs doesn't yet have an in-built YAML mode so we need to install one:
