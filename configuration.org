@@ -484,15 +484,6 @@ There's quite a nice mode for Markdown support, so let's install it:
     :ensure t)
 #+end_src
 
-* Rust
-
-Ensure we have the package for editing Rust mode. Completion will be handled by LSP mode:
-
-#+begin_src emacs-lisp
-  (use-package rust-mode
-    :ensure t)
-#+end_src
-
 * Flycheck
 
 Flycheck is an error checking framework for Emacs. It's useful to get feedback on errors with code.
