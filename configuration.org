@@ -82,6 +82,8 @@ Emacs doesn't automatically upgrade packages, but luckily there is a package tha
 
 * elisp helpers
 
+~chomp~ deletes whitespace at the start and end of a string.
+
 #+begin_src emacs-lisp
   (defun chomp (str)
       "Chomp leading and tailing whitespace from STR."
@@ -90,6 +92,24 @@ Emacs doesn't automatically upgrade packages, but luckily there is a package tha
         (setq str (replace-match "" t t str)))
       str)
 #+end_src
+
+Generating a randomish string is useful occasionally. Here is a function that generates a random alpha-numeric character and another that chains that together to create a string.
+
+#+begin_src emacs-lisp
+  (defun random-alnum ()
+    "generate a 'random' alpha-numeric character"
+    (let* ((alnum "abcdefghijklmnopqrstuvwxyz0123456789")
+           (i (% (abs (random)) (length alnum))))
+      (substring alnum i (1+ i))))
+
+  (defun random-alnum-string (length)
+    "generate a 'random' alpha-numeric string of length `length'"
+    (let ((output ""))
+      (dotimes (_num length output)
+        (setq output (concat output (random-alnum))))
+      output))
+#+end_src
+
 * Appearance
 
 ** Setting the Font
@@ -243,6 +263,26 @@ Emacs has a built in, live, spellchecker called Flyspell. We use flyspell for or
 
 #+begin_src emacs-lisp
   (setq ispell-dictionary "british")
+#+end_src
+
+* Temporary Files
+
+I find it useful to quickly spin up new temporary files. I've created a quick elisp function to do this.
+
+#+begin_src emacs-lisp
+  (defun random-temporary-file-name ()
+    "creates a random temporary file name"
+    (concat "emacs-tmp-" (random-alnum-string 10)))
+
+  (defun temporary-file (file-name)
+    "spawns a quick temporary file"
+    (interactive "sFile name (can be empty): ")
+    (let* ((full-file-name (if (string= "" file-name) (random-temporary-file-name)))
+           (full-path      (concat (temporary-file-directory) full-file-name )))
+      (find-file full-path)))
+
+  ; make this a quick keybinding
+  (global-set-key (kbd "C-`") #'temporary-file)
 #+end_src
 
 * Ivy
