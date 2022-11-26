@@ -277,7 +277,7 @@ I find it useful to quickly spin up new temporary files. I've created a quick el
   (defun temporary-file (file-name)
     "spawns a quick temporary file"
     (interactive "sFile name (can be empty): ")
-    (let* ((full-file-name (if (string= "" file-name) (random-temporary-file-name)))
+    (let* ((full-file-name (if (string= "" file-name) (random-temporary-file-name) file-name))
            (full-path      (concat (temporary-file-directory) full-file-name )))
       (find-file full-path)))
 
