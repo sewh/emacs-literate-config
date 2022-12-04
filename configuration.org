@@ -17,7 +17,7 @@ You need to download this file, =configuration.org=, the =init.el= file and put 
 
 This will make sure this config is loaded at init time.
 
-* Easy Config Reloading
+* Easy Config Management
 
 The first thing we're going to add is a command to reload the config file to save some typing:
 
@@ -28,6 +28,14 @@ The first thing we're going to add is a command to reload the config file to sav
 #+end_src
 
 Reloading the config can now be done with =M-x reload-config=.
+
+Now for editing the config. I always get tired of having to =C-x C-f ~/.emacs.d/configuration.org~= so let's create a little function to solve that.
+
+#+begin_src emacs-lisp
+  (defun edit-config ()
+    (interactive)
+    (find-file (concat user-emacs-directory "configuration.org")))
+#+end_src
 
 * A Note on Emacs
 
