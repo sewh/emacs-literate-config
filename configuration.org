@@ -429,6 +429,32 @@ I also find myself needing to create files in the dired UI which isn't supported
            (revert-buffer)))))
 #+end_src
 
+** Dired Sidebar
+
+I'm going through a sidebar phase. Dired sidebar seems like the vogue one to use. Config taken from the [[https://github.com/jojojames/dired-sidebar][Dired Sidebar README file.]]
+
+#+begin_src emacs-lisp
+  (use-package vscode-icon
+    :ensure t)
+
+  (use-package dired-sidebar
+    :bind (("C-x C-n" . dired-sidebar-toggle-sidebar))
+    :ensure t
+    :commands (dired-sidebar-toggle-sidebar)
+    :init
+    (add-hook 'dired-sidebar-mode-hook
+              (lambda ()
+                (unless (file-remote-p default-directory)
+                  (auto-revert-mode))))
+    :config
+    (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+    (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+
+    (setq dired-sidebar-subtree-line-prefix "__")
+    (setq dired-sidebar-theme 'vscode)
+    (setq dired-sidebar-use-term-integration t))
+#+end_src
+
 * vterm
 
 Emacs has a built in terminal emulator, but it's not a /true/ VTY emulator and struggles with some of the more involved commands. There's a package called =vterm= which provides a much more robust terminal emulator.
@@ -591,3 +617,4 @@ The modern Linux firewall is nftables, and it has its own syntax. We should supp
 #+begin_src emacs-lisp
   (add-hook 'conf-toml-mode-hook (lambda () (setq tab-width 4)))
 #+end_src
+
