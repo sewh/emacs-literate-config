@@ -175,6 +175,15 @@ Sometimes emacs will ask you a question and expect you to type 'yes' or 'no' whi
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
+** Smooth Scrolling (Emacs 29+)
+
+If we have the new pixel scrolling mode, then we should enable it.
+
+#+begin_src emacs-lisp
+  (when (boundp 'pixel-scroll-precision-mode)
+    (pixel-scroll-precision-mode 1))
+#+end_src
+
 * Movement
 ** Better Window Movement
 
