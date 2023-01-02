@@ -433,6 +433,12 @@ I also find myself needing to create files in the dired UI which isn't supported
            (revert-buffer)))))
 #+end_src
 
+Dired, by default, opens a new buffer when a new directory is opened. This can create a lot of dired buffers. There is another command, ~a~, which opens a new directory buffer and deletes the old one. It needs to be enabled.
+
+#+begin_src emacs-lisp
+  (put 'dired-find-alternate-file 'disabled nil)
+#+end_src
+
 ** Dired Sidebar
 
 I'm going through a sidebar phase. Dired sidebar seems like the vogue one to use. Config taken from the [[https://github.com/jojojames/dired-sidebar][Dired Sidebar README file.]]
