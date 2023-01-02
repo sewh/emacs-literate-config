@@ -131,10 +131,11 @@ My currently preferred font is Fira Code, and size 14 is a decent size for me. A
 ** Setting the Theme
 
 #+begin_src emacs-lisp
-  (use-package tron-legacy-theme
-    :ensure t)
-
-  (load-theme 'tron-legacy t)
+  (use-package spacemacs-theme
+    :ensure t
+    :defer t
+    :init
+    (load-theme 'spacemacs-light 't))
 #+end_src
 
 ** Remove the Toolbar and Scrollbar
